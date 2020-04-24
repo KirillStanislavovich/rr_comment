@@ -1,13 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { createStore } from 'redux';
+import comments from './redux/reducers/commentReducer'
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+const initialState = {
+  comments: []
+}
+
+if (localStorage.getItem("commentStorage")) {
+  const localComments = JSON.parse(localStorage.getItem("commentStorage"));
+  initialState.comments = localComments
+} else {localStorage.setItem("commentStorage", JSON.stringify([]))}
+
+const store = createStore(comments, initialState.comments, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <App store={ store }/>,
   document.getElementById('root')
 );
 

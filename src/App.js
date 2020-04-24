@@ -1,26 +1,32 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { connect } from 'react-redux';
+import CommentList from './comment_list/CommentList';
+import AddComment from './AddComment/AddComment';
+import { createComment, deleteComment } from './redux/actions/actions';
+import './index.css';
 
-function App() {
+let App = (props) => {
+const { comments, createComment, deleteComment } = props;
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <AddComment createComment={createComment}/>
+      <CommentList comments={comments} deleteComment={deleteComment}/>
     </div>
   );
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+    comments: state
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    createComment: (inputCache) => dispatch(createComment(inputCache)),
+    deleteComment: (id) => dispatch(deleteComment(id))
+  }
+}
+
+export default App = connect(mapStateToProps, mapDispatchToProps)(App)
