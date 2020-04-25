@@ -1,4 +1,5 @@
 const commentsReducer = (state = [], action) => {
+  let storageComments = JSON.parse(localStorage.getItem("commentStorage"))
   switch (action.type) {
     case 'CREATE_COMMENT':
       let newComment = {
@@ -7,7 +8,6 @@ const commentsReducer = (state = [], action) => {
         text: action.text,
         date: new Date().toLocaleString()
       };
-      let storageComments = JSON.parse(localStorage.getItem("commentStorage"))
       storageComments = [...storageComments, newComment];
       localStorage.setItem("commentStorage", JSON.stringify(storageComments))
       return (
